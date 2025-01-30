@@ -1,8 +1,7 @@
 import NextAuth, { NextAuthOptions } from "next-auth"
 import CredentialsProvider from "next-auth/providers/credentials"
-import bcrypt from "bcryptjs"
 
-export const authOptions: NextAuthOptions = {
+const authOptions: NextAuthOptions = {
   providers: [
     CredentialsProvider({
       name: "Credentials",
@@ -14,7 +13,7 @@ export const authOptions: NextAuthOptions = {
         if (!credentials?.email || !credentials?.password) {
           throw new Error("이메일과 비밀번호를 입력해주세요.")
         }
-
+        
         // 테스트용 관리자 계정
         const validEmail = "admin@tenetmcn.com"
         const validPassword = "admin1234"
@@ -25,7 +24,7 @@ export const authOptions: NextAuthOptions = {
             email: validEmail,
             name: "Admin",
             role: "admin"
-        }
+          }
         }
 
         throw new Error("이메일 또는 비밀번호가 일치하지 않습니다.")

@@ -9,7 +9,6 @@ import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import Image from "next/image";
 import type { Streamer } from '@/types/streamer';
-import { Label } from "@/components/ui/label";
 
 export default function AdminDashboard() {
   const { data: session, status } = useSession();
@@ -66,15 +65,23 @@ export default function AdminDashboard() {
         headers: {
           'Content-Type': 'application/json',
         },
-        body: JSON.stringify(formData),
+        body: JSON.stringify({
+          ...formData,
+          _id: editingId
+        }),
       });
 
       if (response.ok) {
-      await fetchStreamers();
-      resetForm();
+        await fetchStreamers();
+        resetForm();
+      } else {
+        const error = await response.json();
+        console.error('Error saving streamer:', error);
+        alert('스트리머 정보 저장에 실패했습니다.');
       }
     } catch (error) {
       console.error('Error saving streamer:', error);
+      alert('스트리머 정보 저장에 실패했습니다.');
     } finally {
       setIsLoading(false);
     }
@@ -107,10 +114,15 @@ export default function AdminDashboard() {
       });
 
       if (response.ok) {
-      await fetchStreamers();
+        await fetchStreamers();
+      } else {
+        const error = await response.json();
+        console.error('Error deleting streamer:', error);
+        alert('스트리머 삭제에 실패했습니다.');
       }
     } catch (error) {
       console.error('Error deleting streamer:', error);
+      alert('스트리머 삭제에 실패했습니다.');
     }
   };
 
