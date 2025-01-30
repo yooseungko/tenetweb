@@ -67,12 +67,12 @@ export default async function Home() {
               </div>
               
             </div>
-            <h1 className="text-6xl font-bold mb-6">
+            <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold mb-6">
               Influence. Enlighten.
               <br />
               <span className="text-primary">Empowerment.</span>
             </h1>
-            <p className="text-xl text-muted-foreground mb-8">
+            <p className="text-lg md:text-xl text-muted-foreground mb-8">
             크리에이터와 함께 블록체인의 미래를 만듭니다
             </p>
             <Button size="lg" className="group">
