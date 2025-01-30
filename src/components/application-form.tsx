@@ -1,8 +1,16 @@
 'use client';
 
+import { useState } from 'react';
+
 export default function ApplicationForm() {
+  const [isSubmitting, setIsSubmitting] = useState(false);
+
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
+    
+    if (isSubmitting) return;
+    
+    setIsSubmitting(true);
     const form = e.target as HTMLFormElement;
     const formData = new FormData(form);
     const data = Object.fromEntries(formData.entries());
@@ -16,20 +24,28 @@ export default function ApplicationForm() {
         body: JSON.stringify(data),
       });
 
+      const result = await response.json();
+
       if (response.ok) {
-        alert('지원서가 성공적으로 전송되었습니다.');
+        alert(result.message || '지원서가 성공적으로 전송되었습니다.');
         form.reset();
       } else {
-        throw new Error('전송에 실패했습니다.');
+        throw new Error(result.error || '전송에 실패했습니다.');
       }
     } catch (error) {
-      alert('전송 중 오류가 발생했습니다. 다시 시도해주세요.');
+      if (error instanceof Error) {
+        alert(error.message);
+      } else {
+        alert('전송 중 오류가 발생했습니다. 다시 시도해주세요.');
+      }
+    } finally {
+      setIsSubmitting(false);
     }
   };
 
   return (
     <form className="space-y-6" onSubmit={handleSubmit}>
-      <div className="grid grid-cols-2 gap-6">
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
         <div className="space-y-2">
           <label htmlFor="name" className="text-sm font-medium">이름</label>
           <input
@@ -88,9 +104,10 @@ export default function ApplicationForm() {
       </div>
       <button
         type="submit"
-        className="w-full px-6 py-3 bg-primary text-primary-foreground rounded-lg hover:bg-primary/90 transition-colors"
+        disabled={isSubmitting}
+        className="w-full px-6 py-3 bg-primary text-primary-foreground rounded-lg hover:bg-primary/90 transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
       >
-        지원서 제출하기
+        {isSubmitting ? '제출 중...' : '지원서 제출하기'}
       </button>
     </form>
   );
