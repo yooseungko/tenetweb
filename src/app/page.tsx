@@ -57,7 +57,7 @@ export default async function Home() {
       </header>
 
       {/* Hero Section */}
-      <section className="relative min-h-screen flex items-center justify-center bg-background pt-16">
+      <section className="relative min-h-screen flex items-center justify-center bg-background pt-16 overflow-hidden">
         <div className="container mx-auto px-4 grid lg:grid-cols-2 gap-12 items-center">
           <div className="relative z-10">
             <div className="flex items-center gap-2 mb-4">
@@ -82,8 +82,8 @@ export default async function Home() {
               </Link>
             </Button>
           </div>
-          <div className="relative">
-            <div className="absolute top-1/2 right-0 -translate-y-1/2 w-[140%] aspect-square">
+          <div className="relative w-full">
+            <div className="absolute top-1/2 right-0 -translate-y-1/2 w-full lg:w-[140%] aspect-square">
               <div className="w-full h-full bg-[radial-gradient(closest-side,#22c55e15,transparent)]"></div>
             </div>
             <div className="relative aspect-[4/3] w-full">
